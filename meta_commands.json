@@ -1,0 +1,35 @@
+{
+  "application-outages": [
+    {
+      "prompt": "Simulate an I/O hog with 3 workers, a block size of 512k, and a duration of 180 seconds in the 'my-app-ns' namespace",
+      "params": {
+        "chaos-duration": 180,
+        "io-workers": 3,
+        "io-block-size": "512k",
+        "namespace": "my-app-ns"
+      }
+    }
+  ],
+  "node-io-hog": [
+    {
+      "prompt": "I want to run an I/O hog on 'node-01' with 2 workers for 60 seconds.",
+      "params": {
+        "node-selector": "kubernetes.io/hostname=node-01",
+        "io-workers": 2,
+        "chaos-duration": 60
+      }
+    },
+    {
+      "prompt": "I want to create an I/O disruption on a node in the default namespace for 90 seconds.",
+      "params": {
+        "chaos-duration": 90,
+        "namespace": "default"
+      }
+    },
+    {
+      "prompt": "Perform an I/O stress test on a random node.",
+      "params": {
+      }
+    }
+  ]
+}

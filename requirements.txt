@@ -1,0 +1,7 @@
+transformers~=4.52.4
+peft~=0.15.2
+trl~=0.18.2
+bitsandbytes~=0.42.0
+accelerate~=1.7.0
+torch~=2.7.1
+--extra-index-url https://download.pytorch.org/whl/nightly/cpu

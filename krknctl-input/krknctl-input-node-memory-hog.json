@@ -1,0 +1,64 @@
+[
+    {
+	   "name":"chaos-duration",
+       	"short_description":"Chaos Duration",
+        "description":"Set chaos duration (in sec) as desired",
+        "variable":"TOTAL_CHAOS_DURATION",
+        "type":"number",
+        "default":"60"
+    },
+    {
+	    "name":"memory-workers",
+        "short_description":"Memory Workers",
+        "description":"Total number of workers (stress-ng threads)",
+        "variable":"NUMBER_OF_WORKERS",
+        "type":"number",
+        "default":"1",
+        "required":"false"
+    },
+    {
+        "name":"memory-consumption",
+	    "short_description":"Memory Consumption",
+        "description":"percentage (expressed with the suffix %) or amount (expressed with the suffix b, k, m or g) of memory to be consumed by the scenario",
+        "variable":"MEMORY_CONSUMPTION_PERCENTAGE",
+        "type":"string",
+        "validator":"^[0-9]+[%bkmg]$",
+        "default":"90%",
+        "required":"false"
+    },
+    {
+        "name":"namespace",
+	    "short_description":"Namespace",
+        "description":"Namespace where the scenario container will be deployed",
+        "variable":"NAMESPACE",
+        "type":"string",
+        "default":"default"
+    },
+    {
+        "name":"node-selector",
+         "short_description":"Node Selector",
+         "description":"Node selector where the scenario containers will be scheduled in the format \"<selector>=<value>\". NOTE:  Will be instantiated a container per each node selected with the same scenario options. If left empty a random node will be selected",
+         "variable":"NODE_SELECTOR",
+         "type":"string",
+         "validator": "^$|^.+\\=.*$",
+         "default":"",
+         "required": "false"
+     },
+      {
+        "name":"image",
+         "short_description":"Hog Container image",
+         "description":"The hog container image. Can be changed if the hog image is mirrored on a private repository",
+         "variable":"IMAGE",
+         "type":"string",
+         "default":"quay.io/krkn-chaos/krkn-hog",
+         "required": "false"
+     },
+        {
+        "name":"number-of-nodes",
+         "short_description":"Number of nodes",
+         "description":"restricts the number of selected nodes by the selector",
+         "variable":"NUMBER_OF_NODES",
+         "type":"number",
+         "required": "false"
+     }
+]

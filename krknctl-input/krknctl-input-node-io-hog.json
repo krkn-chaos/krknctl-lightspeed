@@ -1,0 +1,82 @@
+[
+    {
+	   "name":"chaos-duration",
+       	"short_description":"Chaos Duration",
+        "description":"Set chaos duration (in sec) as desired",
+        "variable":"TOTAL_CHAOS_DURATION",
+        "type":"number",
+        "default":"60"
+    },
+    {
+        "name":"io-block-size",
+	    "short_description":"I/O Block Size",
+        "description":"sSze of each write in bytes. Size can be from 1 byte to 4 Megabytes (allowed suffix are b,k,m)",
+        "variable":"IO_BLOCK_SIZE",
+        "type":"string",
+        "validator":"^[0-9]+[bkm]$",
+        "default":"1m",
+        "required":"false"
+    },
+    {
+	    "name":"io-workers",
+        "short_description":"I/O Workers",
+        "description":"Number of stressor instances",
+        "variable":"IO_WORKERS",
+        "type":"number",
+        "default":"5",
+        "required":"false"
+    },
+    {
+        "name":"io-write-bytes",
+	    "short_description":"I/O Write Bytes",
+        "description":"string writes N bytes for each hdd process. The size can be expressed as % of free space on the file system or in units of Bytes, KBytes, MBytes and GBytes using the suffix b, k, m or g",
+        "variable":"IO_WRITE_BYTES",
+        "type":"string",
+        "validator":"^[0-9]+[%bkmg]$",
+        "default":"10m"
+    },
+    {
+        "name":"node-mount-path",
+	    "short_description":"Node mount path",
+        "description":"the path in the node that will be mounted in the pod and where the io hog will be executed. NOTE: be sure that kubelet has the rights to write in that node path",
+        "variable":"NODE_MOUNT_PATH",
+        "type":"string",
+        "default":"/root"
+    },
+    {
+        "name":"namespace",
+	    "short_description":"Namespace",
+        "description":"Namespace where the scenario container will be deployed",
+        "variable":"NAMESPACE",
+        "type":"string",
+        "default":"default"
+    },
+    {
+        "name":"node-selector",
+         "short_description":"Node Selector",
+         "description":"Node selector where the scenario containers will be scheduled in the format \"<selector>=<value>\". NOTE:  Will be instantiated a container per each node selected with the same scenario options. If left empty a random node will be selected",
+         "variable":"NODE_SELECTOR",
+         "type":"string",
+         "validator": "^$|^.+\\=.*$",
+         "default":"",
+         "required": "false"
+     },
+    {
+        "name":"number-of-nodes",
+         "short_description":"Number of nodes",
+         "description":"restricts the number of selected nodes by the selector",
+         "variable":"NUMBER_OF_NODES",
+         "type":"number",
+         "required": "false"
+     },
+      {
+        "name":"image",
+         "short_description":"Hog Container image",
+         "description":"The hog container image. Can be changed if the hog image is mirrored on a private repository",
+         "variable":"IMAGE",
+         "type":"string",
+         "default":"quay.io/krkn-chaos/krkn-hog",
+         "required": "false"
+     }
+
+]

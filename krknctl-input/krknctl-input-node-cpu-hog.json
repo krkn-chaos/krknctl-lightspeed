@@ -1,0 +1,61 @@
+[
+    {
+	   "name":"chaos-duration",
+       	"short_description":"Chaos Duration",
+        "description":"Set chaos duration (in sec) as desired",
+        "variable":"TOTAL_CHAOS_DURATION",
+        "type":"number",
+        "default":"60"
+    },
+    {
+        "name":"cores",
+	   "short_description":"Number of cores",
+        "description":"Number of cores (workers) of node CPU to be consumed",
+        "variable":"NODE_CPU_CORE",
+        "type":"number"
+    },
+    {
+	   "name":"cpu-percentage",
+        "short_description":"Cpu percentage",
+        "description":"Percentage of total cpu to be consumed",
+        "variable":"NODE_CPU_PERCENTAGE",
+        "type":"number",
+        "default":"50"
+    },
+    {
+        "name":"namespace",
+	    "short_description":"Namespace",
+        "description":"Namespace where the scenario container will be deployed",
+        "variable":"NAMESPACE",
+        "type":"string",
+        "default":"default"
+    },
+    {
+        "name":"node-selector",
+         "short_description":"Node Selector",
+         "description":"Node selector where the scenario containers will be scheduled in the format \"<selector>=<value>\". NOTE:  Will be instantiated a container per each node selected with the same scenario options. If left empty a random node will be selected",
+         "variable":"NODE_SELECTOR",
+         "type":"string",
+         "validator": "^$|^.+\\=.*$",
+         "default":"",
+         "required": "false"
+     },
+   {
+        "name":"number-of-nodes",
+         "short_description":"Number of nodes",
+         "description":"restricts the number of selected nodes by the selector",
+         "variable":"NUMBER_OF_NODES",
+         "type":"number",
+         "required": "false"
+     },
+      {
+        "name":"image",
+         "short_description":"Hog Container image",
+         "description":"The hog container image. Can be changed if the hog image is mirrored on a private repository",
+         "variable":"IMAGE",
+         "type":"string",
+         "default":"quay.io/krkn-chaos/krkn-hog",
+         "required": "false"
+     }
+
+]
