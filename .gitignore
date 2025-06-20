@@ -1,1 +1,6 @@
 venv
+training_data.jsonl
+*/__pycache__
+krknctl-lightspeed-codellama
+krknctl_finetuned_model
+results

@@ -10,4 +10,4 @@ class CommandParser(unittest.TestCase):
         pass
 
     def test_build_commands(self):
-        build_commands(f"test_file_{time.time()}.jsonl", "meta_commands.json","")
+        build_commands("meta_commands.json", "krknctl-input")
