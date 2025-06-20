@@ -1,4 +1,5 @@
 import torch
+from llama_cpp import Llama
 
 from transformers import (
     AutoTokenizer,
@@ -11,40 +12,57 @@ from trl import SFTTrainer
 from datasets import load_dataset
 import os
 
-MODEL_NAME = "codellama:7b-instruct"
+from krknctl_lightspeed.command_parser import build_commands
+
+MODEL_NAME = "codellama/CodeLlama-7b-Instruct-hf"
+
 DATASET_PATH = "training_data.jsonl"
 OUTPUT_DIR = "./krknctl_finetuned_model"
 NEW_MODEL_NAME = "krknctl-lightspeed-codellama"
 
+commands = build_commands("meta_commands.json", "krknctl-input")
+with open(DATASET_PATH, "w") as f:
+    for command in commands:
+        f.write(f"{command}\n")
 print(f"Loading dataset from {DATASET_PATH}...")
 
 dataset = load_dataset("json", data_files=DATASET_PATH, split="train")
 
 
-def formatting_prompts_func(examples):
-    output_texts = []
-    for i in range(len(examples["instruction"])):
-        text = f"### Instruction:\n{examples['instruction'][i]}\n### Output:\n{examples['output'][i]}"
-        output_texts.append(text)
-    return {"text": output_texts}
+def formatting_prompts_func(example):
+
+    text = f"### Instruction:\n{example.data['instruction']}\n### Output:\n{example.data['output']}"
+    return text
 
 
 print(f"Loading database model: {MODEL_NAME}...")
 
-bnb_config = BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_quant_type="nf4",
-    bnb_4bit_compute_dtype=torch.bfloat16,
-    bnb_4bit_use_double_quant=False,
-)
+# bnb_config = BitsAndBytesConfig(
+#     load_in_4bit=True,
+#     bnb_4bit_quant_type="nf4",
+#     bnb_4bit_compute_dtype=torch.bfloat16,
+#     bnb_4bit_use_double_quant=False,
+# )
+
+# model = AutoModelForCausalLM.from_pretrained(
+#     MODEL_NAME,
+#     quantization_config=bnb_config,
+#     torch_dtype=torch.bfloat16,
+#     device_map="auto",
+#     trust_remote_code=True,
+# )
 
 model = AutoModelForCausalLM.from_pretrained(
-    MODEL_NAME,
-    quantization_config=bnb_config,
-    torch_dtype=torch.bfloat16,
-    device_map="auto",
-    trust_remote_code=True,
+    pretrained_model_name_or_path=MODEL_NAME,
+    model_type="llama",  # Specify model type
+    # gpu_layers=30,  # Set to a positive number for GPU (MPS) layers, -1 for all
 )
+
+# model = Llama(
+#     model_path=MODEL_NAME,  # <-- QUI PASSI IL PERCORSO AL FILE GGUF
+#     n_gpu_layers=-1,
+#     verbose=True,
+# )
 model.config.use_cache = False  # Disable for fine-tuning
 model.config.pretraining_tp = (
     1  # Not needed for fine-tuning, may cause issues if not set
@@ -83,7 +101,7 @@ training_arguments = TrainingArguments(
     logging_steps=50,
     save_strategy="epoch",
     save_total_limit=1,
-    fp16=True,
+    fp16=False,
     report_to="tensorboard",
     push_to_hub=False,
     max_grad_norm=1.0,
@@ -95,11 +113,11 @@ trainer = SFTTrainer(
     model=model,
     train_dataset=dataset,
     peft_config=peft_config,
-    dataset_text_field="text",
-    tokenizer=tokenizer,
+    # dataset_text_field="text",
+    # tokenizer=tokenizer,
     args=training_arguments,
     formatting_func=formatting_prompts_func,
-    max_seq_length=512,
+    # max_seq_length=512,
 )
 
 

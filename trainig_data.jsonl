@@ -1,5 +1,0 @@
-{"instruction": "I want to stress the cpu of the node ", "output": "krknctl run node-io-hog --chaos-duration 90 --io-block-size 1m --io-workers 5 --io-write-bytes 10m --node-mount-path /root --namespace default --image quay.io/krkn-chaos/krkn-hog"}
-{"instruction": "Esegui un hog di CPU sul nodo 'test-node-1' per 120 secondi.", "output": "krknctl run node-cpu-hog --chaos-duration 120 --node-selector 'kubernetes.io/hostname=test-node-1' --namespace default --image quay.io/krkn-chaos/krkn-hog"}
-{"instruction": "Voglio creare un disservizio sul pod 'my-app-pod-xyz' nel namespace 'app-ns'.", "output": "krknctl run pod-scenarios --pod-name my-app-pod-xyz --namespace app-ns --chaos-duration 60"}
-{"instruction": "Simula un'interruzione di rete per i pod nel namespace 'production' per 30 secondi.", "output": "krknctl run pod-network-chaos --network-chaos-type 'delay' --namespace production --chaos-duration 30"}
-{"instruction": "Voglio un consiglio sulle chaos engineering.", "output": "krknctl run chaos-recommender"}
