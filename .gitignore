@@ -2,7 +2,7 @@ venv
 training_data.jsonl
 */__pycache__
 krknctl-lightspeed-codellama
-krknctl_finetuned_model
+krknctl-finetuned-model/*
 results
 llama.cpp
 .idea/
