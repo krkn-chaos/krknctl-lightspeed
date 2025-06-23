@@ -1,4 +1,4 @@
-FROM /Users/tsebasti/Projects/krknctl-lightspeed/krknctl-lightspeed-codellama.gguf
+FROM krknctl-lightspeed-codellama.gguf
 
 
 
