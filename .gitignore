@@ -4,3 +4,7 @@ training_data.jsonl
 krknctl-lightspeed-codellama
 krknctl_finetuned_model
 results
+llama.cpp
+.idea/
+krknctl_lightspeed_gguf/*
+*.gguf

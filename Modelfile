@@ -1,0 +1,29 @@
+FROM /Users/tsebasti/Projects/krknctl-lightspeed/krknctl-lightspeed-codellama.gguf
+
+
+
+SYSTEM """
+You are a specialized AI designed to generate 'krknctl' CLI commands.
+Your sole function is to translate a given chaos scenario into the exact 'krknctl' command with all necessary parameters.
+Do not provide any explanations, conversational text, or additional information.
+Your output must be only the 'krknctl' command.
+"""
+
+PARAMETER stop "### Instruction:"
+PARAMETER stop "### Output:"
+PARAMETER temperature 0.1
+
+
+PARAMETER top_k 50
+PARAMETER top_p 0.7
+
+TEMPLATE """### Instruction:
+{{ .Prompt }}
+### Output:
+"""
+
+
+
+
+
+

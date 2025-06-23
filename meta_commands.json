@@ -1,34 +1,1091 @@
 {
   "application-outages": [
     {
-      "prompt": "Simulate an I/O hog with 3 workers, a block size of 512k, and a duration of 180 seconds in the 'my-app-ns' namespace",
+      "prompt": "Make the 'frontend-web' application unreachable in the 'prod' namespace for 90 seconds, blocking both Ingress and Egress traffic using pod selector '{app: frontend}'.",
       "params": {
-        "chaos-duration": 180,
-        "io-workers": 3,
-        "io-block-size": "512k",
-        "namespace": "my-app-ns"
+        "duration": 90,
+        "namespace": "prod",
+        "block-traffic": "[Ingress, Egress]",
+        "pod-selector": "{app: frontend}"
+      }
+    },
+    {
+      "prompt": "Isolate the 'auth-service' application in the 'security' namespace, identified by '{service: auth}'. Block only Ingress traffic for 60 seconds.",
+      "params": {
+        "duration": 60,
+        "namespace": "security",
+        "block-traffic": "[Ingress]",
+        "pod-selector": "{service: auth}"
+      }
+    },
+    {
+      "prompt": "Cause a full network outage for the 'payment-processor' service in the 'e-commerce' namespace for 180 seconds, targeting pods with 'role: payment'.",
+      "params": {
+        "duration": 180,
+        "namespace": "e-commerce",
+        "block-traffic": "[Ingress, Egress]",
+        "pod-selector": "{role: payment}"
+      }
+    },
+    {
+      "prompt": "Simulate an egress traffic block for the 'reporting-service' application in the 'analytics' namespace for 45 seconds, on pods with 'type: report-worker'.",
+      "params": {
+        "duration": 45,
+        "namespace": "analytics",
+        "block-traffic": "[Egress]",
+        "pod-selector": "{type: report-worker}"
+      }
+    },
+    {
+      "prompt": "Block all traffic for 'backend-api' in 'default' namespace for 120 seconds, using label 'tier: api'.",
+      "params": {
+        "duration": 120,
+        "namespace": "default",
+        "block-traffic": "[Ingress, Egress]",
+        "pod-selector": "{tier: api}"
+      }
+    },
+    {
+      "prompt": "Create an ingress traffic disruption for 'user-profile' in 'user-data' namespace for 75 seconds, targeting '{component: profile}'.",
+      "params": {
+        "duration": 75,
+        "namespace": "user-data",
+        "block-traffic": "[Ingress]",
+        "pod-selector": "{component: profile}"
+      }
+    },
+    {
+      "prompt": "Make 'notification-service' unreachable in 'communication' namespace for 150 seconds, blocking all traffic to '{app: notifications}'.",
+      "params": {
+        "duration": 150,
+        "namespace": "communication",
+        "block-traffic": "[Ingress, Egress]",
+        "pod-selector": "{app: notifications}"
+      }
+    },
+    {
+      "prompt": "Generate an egress traffic block for 'data-ingestion' in 'data-pipeline' for 60 seconds, on pods with '{job: ingest}'.",
+      "params": {
+        "duration": 60,
+        "namespace": "data-pipeline",
+        "block-traffic": "[Egress]",
+        "pod-selector": "{job: ingest}"
+      }
+    },
+    {
+      "prompt": "Isolate 'logging-system' in 'monitoring' namespace for 100 seconds, blocking all traffic to '{system: logging}'.",
+      "params": {
+        "duration": 100,
+        "namespace": "monitoring",
+        "block-traffic": "[Ingress, Egress]",
+        "pod-selector": "{system: logging}"
+      }
+    },
+    {
+      "prompt": "Block ingress traffic for 'discovery-service' in 'core-services' for 80 seconds, on pods with '{type: discovery}'.",
+      "params": {
+        "duration": 80,
+        "namespace": "core-services",
+        "block-traffic": "[Ingress]",
+        "pod-selector": "{type: discovery}"
+      }
+    },
+    {
+      "prompt": "Create a full network partition for 'analytics-engine' in 'data-processing' namespace for 200 seconds, using '{engine: analytics}'.",
+      "params": {
+        "duration": 200,
+        "namespace": "data-processing",
+        "block-traffic": "[Ingress, Egress]",
+        "pod-selector": "{engine: analytics}"
+      }
+    },
+    {
+      "prompt": "Block egress traffic for 'image-processing' in 'media-upload' for 50 seconds, targeting '{task: image-resize}'.",
+      "params": {
+        "duration": 50,
+        "namespace": "media-upload",
+        "block-traffic": "[Egress]",
+        "pod-selector": "{task: image-resize}"
+      }
+    },
+    {
+      "prompt": "Make 'shipping-service' unreachable in 'logistics' namespace for 110 seconds, blocking all traffic to '{app: shipping}'.",
+      "params": {
+        "duration": 110,
+        "namespace": "logistics",
+        "block-traffic": "[Ingress, Egress]",
+        "pod-selector": "{app: shipping}"
+      }
+    },
+    {
+      "prompt": "Block ingress traffic for 'billing-service' in 'finance' namespace for 70 seconds, on pods with '{component: billing}'.",
+      "params": {
+        "duration": 70,
+        "namespace": "finance",
+        "block-traffic": "[Ingress]",
+        "pod-selector": "{component: billing}"
+      }
+    },
+    {
+      "prompt": "Introduce a network blackhole for 'search-engine' in 'search' namespace for 160 seconds, affecting pods with '{tier: search}'.",
+      "params": {
+        "duration": 160,
+        "namespace": "search",
+        "block-traffic": "[Ingress, Egress]",
+        "pod-selector": "{tier: search}"
+      }
+    },
+    {
+      "prompt": "Cut all network connectivity for 'metrics-collector' in 'monitoring' namespace for 40 seconds, pods with '{role: collector}'.",
+      "params": {
+        "duration": 40,
+        "namespace": "monitoring",
+        "block-traffic": "[Ingress, Egress]",
+        "pod-selector": "{role: collector}"
+      }
+    },
+    {
+      "prompt": "Block ingress for 'event-consumer' in 'messaging' namespace for 85 seconds, pods with '{consumer: events}'.",
+      "params": {
+        "duration": 85,
+        "namespace": "messaging",
+        "block-traffic": "[Ingress]",
+        "pod-selector": "{consumer: events}"
+      }
+    },
+    {
+      "prompt": "Disable egress for 'third-party-integration' in 'external' namespace for 95 seconds, pods with '{type: integration}'.",
+      "params": {
+        "duration": 95,
+        "namespace": "external",
+        "block-traffic": "[Egress]",
+        "pod-selector": "{type: integration}"
+      }
+    },
+    {
+      "prompt": "Make 'config-service' unavailable in 'platform' namespace for 130 seconds, pods with '{component: config}'.",
+      "params": {
+        "duration": 130,
+        "namespace": "platform",
+        "block-traffic": "[Ingress, Egress]",
+        "pod-selector": "{component: config}"
+      }
+    },
+    {
+      "prompt": "Isolate 'data-synchronizer' in 'sync' namespace for 55 seconds, blocking all traffic to '{job: sync}'.",
+      "params": {
+        "duration": 55,
+        "namespace": "sync",
+        "block-traffic": "[Ingress, Egress]",
+        "pod-selector": "{job: sync}"
+      }
+    }
+  ],
+  "pvc-scenario": [
+    {
+      "prompt": "Fill 85% of the PVC named 'data-mysql-0' belonging to the pod 'mysql-0' in the 'database' namespace, for 75 seconds.",
+      "params": {
+        "pvc-name": "data-mysql-0",
+        "pod-name": "mysql-0",
+        "namespace": "database",
+        "fill-percentage": 85,
+        "duration": 75
+      }
+    },
+    {
+      "prompt": "Consume 70% of the PVC 'logs-elasticsearch-1' linked to the 'elasticsearch-1' pod in the 'logging' namespace, for 50 seconds.",
+      "params": {
+        "pvc-name": "logs-elasticsearch-1",
+        "pod-name": "elasticsearch-1",
+        "namespace": "logging",
+        "fill-percentage": 70,
+        "duration": 50
+      }
+    },
+    {
+      "prompt": "Fill 90% of the PVC 'kafka-storage-0' for pod 'kafka-broker-0' in 'message-queue' namespace, for 100 seconds.",
+      "params": {
+        "pvc-name": "kafka-storage-0",
+        "pod-name": "kafka-broker-0",
+        "namespace": "message-queue",
+        "fill-percentage": 90,
+        "duration": 100
+      }
+    },
+    {
+      "prompt": "Simulate 99% PVC usage for 'redis-data-0' on 'redis-leader-0' in 'cache' namespace for 30 seconds.",
+      "params": {
+        "pvc-name": "redis-data-0",
+        "pod-name": "redis-leader-0",
+        "namespace": "cache",
+        "fill-percentage": 99,
+        "duration": 30
+      }
+    },
+    {
+      "prompt": "Fill 70% of 'cassandra-data-0' for 'cassandra-0' in 'data-store' namespace for 120 seconds.",
+      "params": {
+        "pvc-name": "cassandra-data-0",
+        "pod-name": "cassandra-0",
+        "namespace": "data-store",
+        "fill-percentage": 70,
+        "duration": 120
+      }
+    },
+    {
+      "prompt": "Consume 95% of 'mongodb-pvc-1' for 'mongodb-1' in 'db-cluster' namespace for 60 seconds.",
+      "params": {
+        "pvc-name": "mongodb-pvc-1",
+        "pod-name": "mongodb-1",
+        "namespace": "db-cluster",
+        "fill-percentage": 95,
+        "duration": 60
+      }
+    },
+    {
+      "prompt": "Fill 80% of 'app-data-volume' for 'web-app-0' in 'default' namespace for 90 seconds.",
+      "params": {
+        "pvc-name": "app-data-volume",
+        "pod-name": "web-app-0",
+        "namespace": "default",
+        "fill-percentage": 80,
+        "duration": 90
+      }
+    },
+    {
+      "prompt": "Simulate 60% usage for 'test-pvc' on 'test-pod-0' in 'dev-env' namespace for 45 seconds.",
+      "params": {
+        "pvc-name": "test-pvc",
+        "pod-name": "test-pod-0",
+        "namespace": "dev-env",
+        "fill-percentage": 60,
+        "duration": 45
+      }
+    },
+    {
+      "prompt": "Fill 92% of 'prometheus-storage' for 'prometheus-k8s-1' in 'monitoring' namespace for 110 seconds.",
+      "params": {
+        "pvc-name": "prometheus-storage",
+        "pod-name": "prometheus-k8s-1",
+        "namespace": "monitoring",
+        "fill-percentage": 92,
+        "duration": 110
+      }
+    },
+    {
+      "prompt": "Consume 78% of 'grafana-data' for 'grafana-pod-0' in 'monitoring' namespace for 55 seconds.",
+      "params": {
+        "pvc-name": "grafana-data",
+        "pod-name": "grafana-pod-0",
+        "namespace": "monitoring",
+        "fill-percentage": 78,
+        "duration": 55
+      }
+    },
+    {
+      "prompt": "Fill 88% of 'jenkins-volume' for 'jenkins-master' in 'ci-cd' namespace for 130 seconds.",
+      "params": {
+        "pvc-name": "jenkins-volume",
+        "pod-name": "jenkins-master",
+        "namespace": "ci-cd",
+        "fill-percentage": 88,
+        "duration": 130
+      }
+    },
+    {
+      "prompt": "Simulate 97% PVC usage for 'gitlab-data' on 'gitlab-runner-0' in 'version-control' namespace for 35 seconds.",
+      "params": {
+        "pvc-name": "gitlab-data",
+        "pod-name": "gitlab-runner-0",
+        "namespace": "version-control",
+        "fill-percentage": 97,
+        "duration": 35
+      }
+    },
+    {
+      "prompt": "Fill 65% of 'storage-gateway-pvc' for 'storage-gw-pod' in 'hybrid-cloud' namespace for 80 seconds.",
+      "params": {
+        "pvc-name": "storage-gateway-pvc",
+        "pod-name": "storage-gw-pod",
+        "namespace": "hybrid-cloud",
+        "fill-percentage": 65,
+        "duration": 80
+      }
+    },
+    {
+      "prompt": "Consume 94% of 'data-volume-flink-0' for 'flink-jobmanager-0' in 'stream-processing' namespace for 70 seconds.",
+      "params": {
+        "pvc-name": "data-volume-flink-0",
+        "pod-name": "flink-jobmanager-0",
+        "namespace": "stream-processing",
+        "fill-percentage": 94,
+        "duration": 70
+      }
+    },
+    {
+      "prompt": "Fill 75% of 'spark-data-volume' for 'spark-worker-0' in 'big-data' namespace for 100 seconds.",
+      "params": {
+        "pvc-name": "spark-data-volume",
+        "pod-name": "spark-worker-0",
+        "namespace": "big-data",
+        "fill-percentage": 75,
+        "duration": 100
+      }
+    },
+    {
+      "prompt": "Fill 82% of 'elastic-data-volume' for 'elastic-node-0' in 'search' namespace for 90 seconds.",
+      "params": {
+        "pvc-name": "elastic-data-volume",
+        "pod-name": "elastic-node-0",
+        "namespace": "search",
+        "fill-percentage": 82,
+        "duration": 90
+      }
+    },
+    {
+      "prompt": "Consume 68% of 'rabbitmq-pvc' for 'rabbitmq-0' in 'messaging' namespace for 60 seconds.",
+      "params": {
+        "pvc-name": "rabbitmq-pvc",
+        "pod-name": "rabbitmq-0",
+        "namespace": "messaging",
+        "fill-percentage": 68,
+        "duration": 60
+      }
+    },
+    {
+      "prompt": "Fill 93% of 'timeseries-db-pvc' for 'influxdb-0' in 'metrics' namespace for 80 seconds.",
+      "params": {
+        "pvc-name": "timeseries-db-pvc",
+        "pod-name": "influxdb-0",
+        "namespace": "metrics",
+        "fill-percentage": 93,
+        "duration": 80
+      }
+    },
+    {
+      "prompt": "Simulate 77% usage for 'ceph-pvc-app' on 'ceph-client-0' in 'storage-cluster' namespace for 40 seconds.",
+      "params": {
+        "pvc-name": "ceph-pvc-app",
+        "pod-name": "ceph-client-0",
+        "namespace": "storage-cluster",
+        "fill-percentage": 77,
+        "duration": 40
+      }
+    },
+    {
+      "prompt": "Fill 89% of 'backup-volume' for 'backup-job-pod' in 'dr' namespace for 150 seconds.",
+      "params": {
+        "pvc-name": "backup-volume",
+        "pod-name": "backup-job-pod",
+        "namespace": "dr",
+        "fill-percentage": 89,
+        "duration": 150
       }
     }
   ],
   "node-io-hog": [
     {
-      "prompt": "I want to run an I/O hog on 'node-01' with 2 workers for 60 seconds.",
+      "prompt": "Execute an I/O hog on 'worker-node-03' using 3 workers for 180 seconds.",
       "params": {
-        "node-selector": "kubernetes.io/hostname=node-01",
+        "node-selector": "kubernetes.io/hostname=worker-node-03",
+        "io-workers": 3,
+        "chaos-duration": 180
+      }
+    },
+    {
+      "prompt": "Induce an I/O disruption on a random node within the 'kube-system' namespace for 100 seconds.",
+      "params": {
+        "chaos-duration": 100,
+        "namespace": "kube-system"
+      }
+    },
+    {
+      "prompt": "Perform an I/O stress test on a node with the label 'disk-type=ssd' for 45 seconds.",
+      "params": {
+        "node-selector": "disk-type=ssd",
+        "chaos-duration": 45
+      }
+    },
+    {
+      "prompt": "Run an I/O hog on 'data-node-01' with 5 workers for 240 seconds, specifically targeting nodes running 'database' workloads.",
+      "params": {
+        "node-selector": "app=database,kubernetes.io/hostname=data-node-01",
+        "io-workers": 5,
+        "chaos-duration": 240
+      }
+    },
+    {
+      "prompt": "Initiate an I/O spike on any node in the 'test' namespace for 60 seconds, with default worker settings.",
+      "params": {
+        "chaos-duration": 60,
+        "namespace": "test"
+      }
+    },
+    {
+      "prompt": "Cause I/O congestion on 'edge-node-01' with 2 workers for 90 seconds.",
+      "params": {
+        "node-selector": "kubernetes.io/hostname=edge-node-01",
+        "io-workers": 2,
+        "chaos-duration": 90
+      }
+    },
+    {
+      "prompt": "Simulate heavy disk usage on a random node in the 'logging' namespace for 75 seconds.",
+      "params": {
+        "chaos-duration": 75,
+        "namespace": "logging"
+      }
+    },
+    {
+      "prompt": "Execute an I/O stress test on nodes with the label 'role=storage' for 150 seconds, using 4 workers.",
+      "params": {
+        "node-selector": "role=storage",
+        "io-workers": 4,
+        "chaos-duration": 150
+      }
+    },
+    {
+      "prompt": "Introduce an I/O bottleneck on 'control-plane-node' for 120 seconds, with 1 worker.",
+      "params": {
+        "node-selector": "kubernetes.io/hostname=control-plane-node",
+        "io-workers": 1,
+        "chaos-duration": 120
+      }
+    },
+    {
+      "prompt": "Perform an I/O hog on a random node in 'kube-monitoring' namespace for 80 seconds.",
+      "params": {
+        "chaos-duration": 80,
+        "namespace": "kube-monitoring"
+      }
+    },
+    {
+      "prompt": "Run an I/O intensive workload on nodes marked 'instance-type=high-io' for 200 seconds with 6 workers.",
+      "params": {
+        "node-selector": "instance-type=high-io",
+        "io-workers": 6,
+        "chaos-duration": 200
+      }
+    },
+    {
+      "prompt": "Trigger an I/O disruption on 'gpu-node-01' for 50 seconds.",
+      "params": {
+        "node-selector": "kubernetes.io/hostname=gpu-node-01",
+        "chaos-duration": 50
+      }
+    },
+    {
+      "prompt": "Create an I/O hog on any node in the 'dev' namespace for 100 seconds, with 2 workers.",
+      "params": {
+        "chaos-duration": 100,
+        "namespace": "dev",
+        "io-workers": 2
+      }
+    },
+    {
+      "prompt": "Simulate heavy I/O on nodes with 'cloud.google.com/gke-nodepool=default-pool' for 70 seconds.",
+      "params": {
+        "node-selector": "cloud.google.com/gke-nodepool=default-pool",
+        "chaos-duration": 70
+      }
+    },
+    {
+      "prompt": "Run an I/O stress test on 'storage-master' node for 160 seconds with 3 workers.",
+      "params": {
+        "node-selector": "kubernetes.io/hostname=storage-master",
+        "io-workers": 3,
+        "chaos-duration": 160
+      }
+    },
+    {
+      "prompt": "Cause extreme I/O on 'elastic-node-02' for 180 seconds, with 4 workers.",
+      "params": {
+        "node-selector": "kubernetes.io/hostname=elastic-node-02",
+        "io-workers": 4,
+        "chaos-duration": 180
+      }
+    },
+    {
+      "prompt": "Perform an I/O hog on a random node in the 'big-data' namespace for 90 seconds, with 5 workers.",
+      "params": {
+        "chaos-duration": 90,
+        "namespace": "big-data",
+        "io-workers": 5
+      }
+    },
+    {
+      "prompt": "Introduce an I/O disruption on nodes with label 'tier=database' for 110 seconds, with 3 workers.",
+      "params": {
+        "node-selector": "tier=database",
+        "io-workers": 3,
+        "chaos-duration": 110
+      }
+    },
+    {
+      "prompt": "Simulate disk performance degradation on 'cache-node-01' for 60 seconds, with 2 workers.",
+      "params": {
+        "node-selector": "kubernetes.io/hostname=cache-node-01",
         "io-workers": 2,
         "chaos-duration": 60
       }
     },
     {
-      "prompt": "I want to create an I/O disruption on a node in the default namespace for 90 seconds.",
+      "prompt": "Run an I/O stress on any node in 'kubernetes-dashboard' namespace for 130 seconds.",
       "params": {
-        "chaos-duration": 90,
-        "namespace": "default"
+        "chaos-duration": 130,
+        "namespace": "kubernetes-dashboard"
+      }
+    }
+  ],
+  "node-cpu-hog": [
+    {
+      "prompt": "Run a CPU stress test on a random node, elevating CPU usage to 95% for 60 seconds.",
+      "params": {
+        "cpu-percentage": 95,
+        "chaos-duration": 60
       }
     },
     {
-      "prompt": "Perform an I/O stress test on a random node.",
+      "prompt": "Cause a CPU spike to 80% on the node 'compute-node-01' for 30 seconds.",
       "params": {
+        "node-selector": "kubernetes.io/hostname=compute-node-01",
+        "cpu-percentage": 80,
+        "chaos-duration": 30
+      }
+    },
+    {
+      "prompt": "Perform a CPU hog on a node with the label 'environment=production' raising CPU to 70% for 120 seconds.",
+      "params": {
+        "node-selector": "environment=production",
+        "cpu-percentage": 70,
+        "chaos-duration": 120
+      }
+    },
+    {
+      "prompt": "Stress the CPU on a node in the 'monitoring' namespace to 99% for 45 seconds.",
+      "params": {
+        "namespace": "monitoring",
+        "cpu-percentage": 99,
+        "chaos-duration": 45
+      }
+    },
+    {
+      "prompt": "Induce 85% CPU load on 'worker-node-02' for 90 seconds.",
+      "params": {
+        "node-selector": "kubernetes.io/hostname=worker-node-02",
+        "cpu-percentage": 85,
+        "chaos-duration": 90
+      }
+    },
+    {
+      "prompt": "Generate a CPU stress event on a random node with 'zone=us-east-1a' to 75% for 70 seconds.",
+      "params": {
+        "node-selector": "topology.kubernetes.io/zone=us-east-1a",
+        "cpu-percentage": 75,
+        "chaos-duration": 70
+      }
+    },
+    {
+      "prompt": "Perform a 90% CPU hog on any node in the 'data-science' namespace for 180 seconds.",
+      "params": {
+        "namespace": "data-science",
+        "cpu-percentage": 90,
+        "chaos-duration": 180
+      }
+    },
+    {
+      "prompt": "Elevate CPU usage to 60% on nodes with 'node-role.kubernetes.io/master=' for 150 seconds.",
+      "params": {
+        "node-selector": "node-role.kubernetes.io/master=",
+        "cpu-percentage": 60,
+        "chaos-duration": 150
+      }
+    },
+    {
+      "prompt": "Create a 98% CPU load on 'jenkins-node-01' for 40 seconds.",
+      "params": {
+        "node-selector": "kubernetes.io/hostname=jenkins-node-01",
+        "cpu-percentage": 98,
+        "chaos-duration": 40
+      }
+    },
+    {
+      "prompt": "Run a CPU stress test on a random node for 110 seconds, raising CPU to 88%.",
+      "params": {
+        "cpu-percentage": 88,
+        "chaos-duration": 110
+      }
+    },
+    {
+      "prompt": "Induce 72% CPU load on nodes with 'cloud.google.com/gke-nodepool=spot-pool' for 65 seconds.",
+      "params": {
+        "node-selector": "cloud.google.com/gke-nodepool=spot-pool",
+        "cpu-percentage": 72,
+        "chaos-duration": 65
+      }
+    },
+    {
+      "prompt": "Cause a CPU spike to 92% on any node in 'kube-system' namespace for 55 seconds.",
+      "params": {
+        "namespace": "kube-system",
+        "cpu-percentage": 92,
+        "chaos-duration": 55
+      }
+    },
+    {
+      "prompt": "Perform a CPU hog on 'build-agent-node-01' at 83% for 130 seconds.",
+      "params": {
+        "node-selector": "kubernetes.io/hostname=build-agent-node-01",
+        "cpu-percentage": 83,
+        "chaos-duration": 130
+      }
+    },
+    {
+      "prompt": "Stress CPU on a random node with label 'usage=high-perf' to 96% for 75 seconds.",
+      "params": {
+        "node-selector": "usage=high-perf",
+        "cpu-percentage": 96,
+        "chaos-duration": 75
+      }
+    },
+    {
+      "prompt": "Elevate CPU usage to 87% on 'infra-node-01' for 100 seconds.",
+      "params": {
+        "node-selector": "kubernetes.io/hostname=infra-node-01",
+        "cpu-percentage": 87,
+        "chaos-duration": 100
+      }
+    },
+    {
+      "prompt": "Introduce a 90% CPU load on 'database-node-01' for 160 seconds.",
+      "params": {
+        "node-selector": "kubernetes.io/hostname=database-node-01",
+        "cpu-percentage": 90,
+        "chaos-duration": 160
+      }
+    },
+    {
+      "prompt": "Generate a CPU stress event on any node in the 'etl' namespace to 82% for 80 seconds.",
+      "params": {
+        "namespace": "etl",
+        "cpu-percentage": 82,
+        "chaos-duration": 80
+      }
+    },
+    {
+      "prompt": "Perform a CPU hog on nodes with 'type=batch' raising CPU to 78% for 140 seconds.",
+      "params": {
+        "node-selector": "type=batch",
+        "cpu-percentage": 78,
+        "chaos-duration": 140
+      }
+    },
+    {
+      "prompt": "Stress CPU on 'message-broker-node' to 97% for 50 seconds.",
+      "params": {
+        "node-selector": "kubernetes.io/hostname=message-broker-node",
+        "cpu-percentage": 97,
+        "chaos-duration": 50
+      }
+    },
+    {
+      "prompt": "Induce 65% CPU load on a random node with 'kubernetes.io/role=worker' for 125 seconds.",
+      "params": {
+        "node-selector": "kubernetes.io/role=worker",
+        "cpu-percentage": 65,
+        "chaos-duration": 125
+      }
+    }
+  ],
+  "pod-scenarios": [
+    {
+      "prompt": "Terminate one pod identified by the selector 'component=frontend' in the 'web-app' namespace. Enable alert collection and expect recovery within 40 seconds.",
+      "params": {
+        "namespace": "web-app",
+        "pod-label": "component=frontend",
+        "disruption-count": 1,
+        "enable-alerts": "true",
+        "check-critical-alerts": "true",
+        "expected-recovery-time": 40
+      }
+    },
+    {
+      "prompt": "Randomly kill 2 pods with the label 'queue=processing' in the 'data-pipeline' namespace, without collecting alerts.",
+      "params": {
+        "namespace": "data-pipeline",
+        "pod-label": "queue=processing",
+        "disruption-count": 2,
+        "enable-alerts": "false"
+      }
+    },
+    {
+      "prompt": "Delete a single pod with 'app=nginx' in the 'default' namespace, expecting it to recover in 20 seconds. Disable alert checking.",
+      "params": {
+        "namespace": "default",
+        "pod-label": "app=nginx",
+        "disruption-count": 1,
+        "enable-alerts": "false",
+        "expected-recovery-time": 20
+      }
+    },
+    {
+      "prompt": "Restart all pods labeled 'role=api' in the 'api-gateway' namespace. Collect alerts and ensure critical alerts are checked. Expect recovery within 60 seconds.",
+      "params": {
+        "namespace": "api-gateway",
+        "pod-label": "role=api",
+        "disruption-count": -1,
+        "enable-alerts": "true",
+        "check-critical-alerts": "true",
+        "expected-recovery-time": 60
+      }
+    },
+    {
+      "prompt": "Kill one pod with selector 'service=database' in 'data-store' namespace. Expect recovery in 50 seconds and enable alerts.",
+      "params": {
+        "namespace": "data-store",
+        "pod-label": "service=database",
+        "disruption-count": 1,
+        "enable-alerts": "true",
+        "check-critical-alerts": "true",
+        "expected-recovery-time": 50
+      }
+    },
+    {
+      "prompt": "Delete 3 random pods labeled 'component=cache' in 'caching' namespace. No alerts expected.",
+      "params": {
+        "namespace": "caching",
+        "pod-label": "component=cache",
+        "disruption-count": 3,
+        "enable-alerts": "false"
+      }
+    },
+    {
+      "prompt": "Terminate a pod with 'app=messaging' in 'event-bus' namespace. Recovery expected in 35 seconds. Check critical alerts.",
+      "params": {
+        "namespace": "event-bus",
+        "pod-label": "app=messaging",
+        "disruption-count": 1,
+        "enable-alerts": "true",
+        "check-critical-alerts": "true",
+        "expected-recovery-time": 35
+      }
+    },
+    {
+      "prompt": "Restart pods with 'tier=load-balancer' in 'network' namespace. Enable alert collection, no recovery time specified.",
+      "params": {
+        "namespace": "network",
+        "pod-label": "tier=load-balancer",
+        "disruption-count": -1,
+        "enable-alerts": "true"
+      }
+    },
+    {
+      "prompt": "Kill a pod named 'scheduler-0' in 'kube-system' namespace. Expect recovery in 30 seconds. No alerts.",
+      "params": {
+        "namespace": "kube-system",
+        "pod-name": "scheduler-0",
+        "disruption-count": 1,
+        "enable-alerts": "false",
+        "expected-recovery-time": 30
+      }
+    },
+    {
+      "prompt": "Delete 2 pods with 'daemonset=fluentd' in 'logging' namespace. No recovery time or alerts.",
+      "params": {
+        "namespace": "logging",
+        "pod-label": "daemonset=fluentd",
+        "disruption-count": 2,
+        "enable-alerts": "false"
+      }
+    },
+    {
+      "prompt": "Terminate a pod with 'app=prometheus' in 'monitoring' namespace. Expect recovery in 45 seconds, enable critical alerts.",
+      "params": {
+        "namespace": "monitoring",
+        "pod-label": "app=prometheus",
+        "disruption-count": 1,
+        "enable-alerts": "true",
+        "check-critical-alerts": "true",
+        "expected-recovery-time": 45
+      }
+    },
+    {
+      "prompt": "Restart all pods with 'app=jenkins' in 'ci-cd' namespace. Collect alerts.",
+      "params": {
+        "namespace": "ci-cd",
+        "pod-label": "app=jenkins",
+        "disruption-count": -1,
+        "enable-alerts": "true"
+      }
+    },
+    {
+      "prompt": "Kill a random pod with 'team=platform' in 'infra' namespace. Expect recovery in 25 seconds. No alerts.",
+      "params": {
+        "namespace": "infra",
+        "pod-label": "team=platform",
+        "disruption-count": 1,
+        "enable-alerts": "false",
+        "expected-recovery-time": 25
+      }
+    },
+    {
+      "prompt": "Delete 1 pod with 'environment=staging' in 'frontend' namespace. Collect alerts.",
+      "params": {
+        "namespace": "frontend",
+        "pod-label": "environment=staging",
+        "disruption-count": 1,
+        "enable-alerts": "true"
+      }
+    },
+    {
+      "prompt": "Terminate pods with 'component=worker' in 'batch-jobs' namespace. Expect recovery in 55 seconds. Enable critical alerts.",
+      "params": {
+        "namespace": "batch-jobs",
+        "pod-label": "component=worker",
+        "disruption-count": -1,
+        "enable-alerts": "true",
+        "check-critical-alerts": "true",
+        "expected-recovery-time": 55
+      }
+    },
+    {
+      "prompt": "Kill a pod named 'rabbitmq-cluster-0' in 'message-queue' namespace. Expect recovery in 60 seconds. Enable alerts.",
+      "params": {
+        "namespace": "message-queue",
+        "pod-name": "rabbitmq-cluster-0",
+        "disruption-count": 1,
+        "enable-alerts": "true",
+        "check-critical-alerts": "true",
+        "expected-recovery-time": 60
+      }
+    },
+    {
+      "prompt": "Delete a random pod with 'app=redis' in 'cache' namespace. No alerts expected, 30 seconds recovery.",
+      "params": {
+        "namespace": "cache",
+        "pod-label": "app=redis",
+        "disruption-count": 1,
+        "enable-alerts": "false",
+        "expected-recovery-time": 30
+      }
+    },
+    {
+      "prompt": "Terminate 2 pods with 'role=ingress' in 'networking' namespace. Enable alerts, 40 seconds recovery.",
+      "params": {
+        "namespace": "networking",
+        "pod-label": "role=ingress",
+        "disruption-count": 2,
+        "enable-alerts": "true",
+        "check-critical-alerts": "true",
+        "expected-recovery-time": 40
+      }
+    },
+    {
+      "prompt": "Restart all pods with 'type=indexer' in 'search-engine' namespace. No alerts.",
+      "params": {
+        "namespace": "search-engine",
+        "pod-label": "type=indexer",
+        "disruption-count": -1,
+        "enable-alerts": "false"
+      }
+    },
+    {
+      "prompt": "Kill a pod named 'kube-proxy-abc' in 'kube-system' namespace. Expected recovery in 20 seconds. No alerts.",
+      "params": {
+        "namespace": "kube-system",
+        "pod-name": "kube-proxy-abc",
+        "disruption-count": 1,
+        "enable-alerts": "false",
+        "expected-recovery-time": 20
+      }
+    }
+  ],
+  "zone-outages": [
+    {
+      "prompt": "Isolate a zone in the subnet 'subnet-09876543210fedcba' on the VPC 'vpc-0123456789abcdef0' in the 'ap-southeast-1' region on the AWS cloud platform for 70 seconds.",
+      "params": {
+        "cloud-type": "aws",
+        "duration": 70,
+        "vpc-id": "vpc-0123456789abcdef0",
+        "subnet-id": "subnet-09876543210fedcba",
+        "region": "ap-southeast-1"
+      }
+    },
+    {
+      "prompt": "Simulate a zone outage on the Azure cloud platform for 110 seconds, targeting the region 'eastus2' and resource group 'prod-rg'.",
+      "params": {
+        "cloud-type": "azure",
+        "duration": 110,
+        "region": "eastus2",
+        "resource-group": "prod-rg"
+      }
+    },
+    {
+      "prompt": "Create a zone isolation on GCP in region 'europe-west3' for 90 seconds, impacting projects under 'gcp-project-chaos'.",
+      "params": {
+        "cloud-type": "gcp",
+        "duration": 90,
+        "region": "europe-west3",
+        "project-id": "gcp-project-chaos"
+      }
+    },
+    {
+      "prompt": "Initiate a zone disruption on AWS in 'us-east-1' for 180 seconds, specifically within VPC 'vpc-0abc123def456ghi7' and subnet 'subnet-0xyz987654321fedc'.",
+      "params": {
+        "cloud-type": "aws",
+        "duration": 180,
+        "vpc-id": "vpc-0abc123def456ghi7",
+        "subnet-id": "subnet-0xyz987654321fedc",
+        "region": "us-east-1"
+      }
+    },
+    {
+      "prompt": "Simulate an Azure zone outage in 'westus' for 60 seconds, affecting resource group 'dev-rg'.",
+      "params": {
+        "cloud-type": "azure",
+        "duration": 60,
+        "region": "westus",
+        "resource-group": "dev-rg"
+      }
+    },
+    {
+      "prompt": "Cause a GCP zone isolation in 'asia-east1' for 75 seconds, targeting project 'gcp-billing-prod'.",
+      "params": {
+        "cloud-type": "gcp",
+        "duration": 75,
+        "region": "asia-east1",
+        "project-id": "gcp-billing-prod"
+      }
+    },
+    {
+      "prompt": "Introduce an AWS zone outage in 'eu-west-2' for 100 seconds, within VPC 'vpc-0qwertyuiopasdfgh' and subnet 'subnet-0lkjhgfdsaqwerty'.",
+      "params": {
+        "cloud-type": "aws",
+        "duration": 100,
+        "vpc-id": "vpc-0qwertyuiopasdfgh",
+        "subnet-id": "subnet-0lkjhgfdsaqwerty",
+        "region": "eu-west-2"
+      }
+    },
+    {
+      "prompt": "Trigger an Azure zone disruption in 'northeurope' for 130 seconds, impacting resource group 'test-rg'.",
+      "params": {
+        "cloud-type": "azure",
+        "duration": 130,
+        "region": "northeurope",
+        "resource-group": "test-rg"
+      }
+    },
+    {
+      "prompt": "Execute a GCP zone isolation in 'southamerica-east1' for 85 seconds, for project 'gcp-analytics'.",
+      "params": {
+        "cloud-type": "gcp",
+        "duration": 85,
+        "region": "southamerica-east1",
+        "project-id": "gcp-analytics"
+      }
+    },
+    {
+      "prompt": "Simulate an AWS zone outage in 'ca-central-1' for 95 seconds, within VPC 'vpc-0zxcvbnmasdfghjkl' and subnet 'subnet-0poiuytrewqasdfgh'.",
+      "params": {
+        "cloud-type": "aws",
+        "duration": 95,
+        "vpc-id": "vpc-0zxcvbnmasdfghjkl",
+        "subnet-id": "subnet-0poiuytrewqasdfgh",
+        "region": "ca-central-1"
+      }
+    },
+    {
+      "prompt": "Cause an Azure zone outage in 'southeastasia' for 70 seconds, affecting resource group 'stg-rg'.",
+      "params": {
+        "cloud-type": "azure",
+        "duration": 70,
+        "region": "southeastasia",
+        "resource-group": "stg-rg"
+      }
+    },
+    {
+      "prompt": "Initiate a GCP zone disruption in 'australia-southeast1' for 140 seconds, on project 'gcp-web-app'.",
+      "params": {
+        "cloud-type": "gcp",
+        "duration": 140,
+        "region": "australia-southeast1",
+        "project-id": "gcp-web-app"
+      }
+    },
+    {
+      "prompt": "Simulate an AWS zone isolation in 'eu-central-1' for 115 seconds, within VPC 'vpc-0mnbvcxzlkjhgfdsa' and subnet 'subnet-0qazwsxedcrfvtgb'.",
+      "params": {
+        "cloud-type": "aws",
+        "duration": 115,
+        "vpc-id": "vpc-0mnbvcxzlkjhgfdsa",
+        "subnet-id": "subnet-0qazwsxedcrfvtgb",
+        "region": "eu-central-1"
+      }
+    },
+    {
+      "prompt": "Trigger an Azure zone outage in 'uksouth' for 80 seconds, impacting resource group 'dr-rg'.",
+      "params": {
+        "cloud-type": "azure",
+        "duration": 80,
+        "region": "uksouth",
+        "resource-group": "dr-rg"
+      }
+    },
+    {
+      "prompt": "Perform a GCP zone outage in 'us-west1' for 160 seconds, for project 'gcp-ml-platform'.",
+      "params": {
+        "cloud-type": "gcp",
+        "duration": 160,
+        "region": "us-west1",
+        "project-id": "gcp-ml-platform"
+      }
+    },
+    {
+      "prompt": "Isolate an AWS zone in 'ap-northeast-2' for 50 seconds, VPC 'vpc-0abcdef1234567890' and subnet 'subnet-0fedcba9876543210'.",
+      "params": {
+        "cloud-type": "aws",
+        "duration": 50,
+        "vpc-id": "vpc-0abcdef1234567890",
+        "subnet-id": "subnet-0fedcba9876543210",
+        "region": "ap-northeast-2"
+      }
+    },
+    {
+      "prompt": "Simulate an Azure zone outage in 'japaneast' for 120 seconds, resource group 'stg-web'.",
+      "params": {
+        "cloud-type": "azure",
+        "duration": 120,
+        "region": "japaneast",
+        "resource-group": "stg-web"
+      }
+    },
+    {
+      "prompt": "Create a GCP zone isolation in 'northamerica-northeast1' for 105 seconds, project 'gcp-dev-env'.",
+      "params": {
+        "cloud-type": "gcp",
+        "duration": 105,
+        "region": "northamerica-northeast1",
+        "project-id": "gcp-dev-env"
+      }
+    },
+    {
+      "prompt": "Initiate an AWS zone disruption in 'sa-east-1' for 90 seconds, VPC 'vpc-01a2b3c4d5e6f7g8h' and subnet 'subnet-0h8g7f6e5d4c3b2a1'.",
+      "params": {
+        "cloud-type": "aws",
+        "duration": 90,
+        "vpc-id": "vpc-01a2b3c4d5e6f7g8h",
+        "subnet-id": "subnet-0h8g7f6e5d4c3b2a1",
+        "region": "sa-east-1"
+      }
+    },
+    {
+      "prompt": "Cause an Azure zone outage in 'centralus' for 75 seconds, affecting resource group 'ci-cd-rg'.",
+      "params": {
+        "cloud-type": "azure",
+        "duration": 75,
+        "region": "centralus",
+        "resource-group": "ci-cd-rg"
       }
     }
   ]

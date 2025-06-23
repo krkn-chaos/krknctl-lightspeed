@@ -1,3 +1,5 @@
+import logging
+
 import torch
 
 # If you don't use llama_cpp for inference after training, you can remove this too.
@@ -24,9 +26,13 @@ import os
 from krknctl_lightspeed.command_parser import build_commands
 
 # --- Configuration Variables ---
+
+MODEL_NAME = "tinyllama"
+# MODEL_NAME = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 MODEL_NAME = "codellama/CodeLlama-7b-Instruct-hf"
+
 DATASET_PATH = "training_data.jsonl"
-OUTPUT_DIR = "./krknctl_finetuned_model"
+OUTPUT_DIR = "./krknctl-finetuned-model"
 NEW_MODEL_NAME = "krknctl-lightspeed-codellama"
 
 # --- Data Preparation ---
@@ -38,8 +44,10 @@ print(f"Loading dataset from {DATASET_PATH}...")
 dataset = load_dataset("json", data_files=DATASET_PATH, split="train")
 
 
-def formatting_prompts_func(example):
-    text = f"### Instruction:\n{example.data['instruction']}\n### Output:\n{example.data['output']}"
+def formatting_prompts_func(row):
+    instruction = row["instruction"]
+    output = row["output"]
+    text = f"### Instruction:\n{instruction}\n### Output:\n{output}"
     return text
 
 
@@ -71,36 +79,64 @@ tokenizer.pad_token = tokenizer.eos_token
 tokenizer.padding_side = "right"
 
 # --- PEFT (LoRA) Configuration ---
+# peft_config = LoraConfig(
+#     r=16,
+#     lora_alpha=32,
+#     lora_dropout=0.05,
+#     bias="none",
+#     task_type=TaskType.CAUSAL_LM,
+#     target_modules=["q_proj", "v_proj"],
+# )
+
 peft_config = LoraConfig(
-    r=16,
-    lora_alpha=32,
-    lora_dropout=0.05,
+    r=32,  # Aumentato il LoRA rank
+    lora_alpha=64,  # Scala l'aggiornamento LoRA
     bias="none",
-    task_type=TaskType.CAUSAL_LM,
-    target_modules=["q_proj", "v_proj"],
+    task_type="CAUSAL_LM",
+    target_modules=[
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj",
+        "gate_proj",
+        "up_proj",
+        "down_proj",
+    ],  # Assicurati di includere tutti i moduli rilevanti per il tuo modello CodeLlama
 )
 model = get_peft_model(model, peft_config)
 
 print(f"Trainable parameters: {model.print_trainable_parameters()}")
 
 # --- Training Arguments ---
+# training_arguments = TrainingArguments(
+#     output_dir="./results",
+#     num_train_epochs=3,
+#     per_device_train_batch_size=2,
+#     gradient_accumulation_steps=4,
+#     gradient_checkpointing=True,
+#     optim="adamw_torch",  # <--- CHANGE THIS FROM "adamw_8bit"
+#     lr_scheduler_type="cosine",
+#     warmup_ratio=0.03,
+#     weight_decay=0.001,
+#     logging_steps=50,
+#     save_strategy="epoch",
+#     save_total_limit=1,
+#     fp16=False,
+#     report_to="tensorboard",
+#     push_to_hub=False,
+#     max_grad_norm=1.0,
+# )
+
 training_arguments = TrainingArguments(
     output_dir="./results",
-    num_train_epochs=3,
-    per_device_train_batch_size=2,
-    gradient_accumulation_steps=4,
-    gradient_checkpointing=True,
-    optim="adamw_torch",  # <--- CHANGE THIS FROM "adamw_8bit"
-    lr_scheduler_type="cosine",
-    warmup_ratio=0.03,
-    weight_decay=0.001,
-    logging_steps=50,
-    save_strategy="epoch",
-    save_total_limit=1,
-    fp16=False,
-    report_to="tensorboard",
-    push_to_hub=False,
-    max_grad_norm=1.0,
+    num_train_epochs=20,  # Aumentato il numero di epoche
+    per_device_train_batch_size=2,  # Ridotta la dimensione del batch
+    learning_rate=3e-5,  # Leggermente aumentato il learning rate (sperimentale)
+    fp16=False,  # Abilita FP16 per training più veloce e minore memoria (se supportato)
+    logging_dir="./logs",
+    logging_steps=10,
+    save_steps=10,
+    report_to="none",  # o "tensorboard" per monitorare l'overfitting
 )
 
 # --- Trainer Setup and Training ---

@@ -6,3 +6,4 @@ torch~=2.7.1
 --extra-index-url https://download.pytorch.org/whl/nightly/cpu
 llama-cpp-python
 tensorboard~=2.19.0
+huggingface_hub[hf_transfer]~=0.33.0
